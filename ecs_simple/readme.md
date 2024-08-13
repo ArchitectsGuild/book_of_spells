@@ -9,12 +9,18 @@ docker images
 docker run -p 5637:5637 -d tutorial-flask-image
 
 # don't forget to create an AWS bucket named "terraform-tfstate-ecsworkshop"
+# when the ecr image is created it will have a url change it in files and in the push procedure execution:
+# eg: 349556150670.dkr.ecr.us-east-1.amazonaws.com
+vim container-definitions/container-def.json
 
-# push it to ECR
+# push it to ECR - aws Elastic 
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 349556150670.dkr.ecr.us-east-1.amazonaws.com
-
 docker tag tutorial-flask-image:latest 349556150670.dkr.ecr.us-east-1.amazonaws.com/ecr-workshop:latest
-    
 docker push 349556150670.dkr.ecr.us-east-1.amazonaws.com/ecr-workshop:latest
 
 # Use the right image id in ECR both in this script and in container-def.json
+
+cd terraform
+terraform init
+terraform plan
+terraform apply
